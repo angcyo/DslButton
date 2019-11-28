@@ -5,6 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            android:textColor="@color/colorAccent" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_gradient_start_color="@color/colorAccent" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_gradient_end_color="@color/colorPrimaryDark" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_gradient_end_color="@color/colorPrimaryDark"
+            app:button_gradient_start_color="@color/colorAccent" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,27 +35,87 @@
 
         <com.angcyo.button.DslButton
             style="@style/ButtonStyle"
-            app:button_normal_gradient_start_color="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            app:button_press_solid_color="@color/colorPrimaryDark"
+            app:button_press_text_color="#ffffff"
+            app:button_radius="10dp" />
 
         <com.angcyo.button.DslButton
             style="@style/ButtonStyle"
-            app:button_normal_gradient_end_color="@color/colorPrimaryDark" />
+            app:button_gradient_colors="#908912,#F90B1A,#777888"
+            app:button_radius="10dp" />
 
         <com.angcyo.button.DslButton
             style="@style/ButtonStyle"
-            app:button_normal_gradient_end_color="@color/colorPrimaryDark"
-            app:button_normal_gradient_start_color="@color/colorAccent" />
+            app:button_gradient_colors="#908912,#F90B1A,#777888"
+            app:button_gradient_orientation="TL_BR"
+            app:button_press_text_color="#ffffff"
+            app:button_radius="10dp"
+            app:button_ripple_color="#ffffff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.angcyo.button.DslButton
             style="@style/ButtonStyle"
-            app:button_normal_gradient_colors="#908912,#F90B1A,#777888"
-            app:button_normal_radius="10dp" />
+            android:textColor="@color/colorAccent"
+            app:button_press_solid_color="@color/colorPrimaryDark"
+            app:button_press_text_color="#ffffff"
+            app:button_radius="10dp" />
 
         <com.angcyo.button.DslButton
             style="@style/ButtonStyle"
-            app:button_normal_gradient_colors="#908912,#F90B1A,#777888"
-            app:button_normal_gradient_orientation="TL_BR"
-            app:button_normal_radius="10dp" />
+            app:button_normal_stroke_color="@color/colorAccent"
+            app:button_normal_stroke_width="2dp"
+            app:button_press_radius="10dp"
+            app:button_press_solid_color="@color/colorPrimary"
+            app:button_press_text_color="#fff" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_dash_gap="2dp"
+            app:button_dash_width="4dp"
+            app:button_normal_stroke_color="@color/colorAccent"
+            app:button_press_gradient_colors="#908912,#F90B1A,#777888"
+            app:button_press_radius="10dp"
+            app:button_press_text_color="#fff"
+            app:button_stroke_width="2dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_press_solid_color="@color/colorPrimaryDark"
+            app:button_press_text_color="#fff"
+            app:button_radius="10dp"
+            app:button_solid_color="@color/colorPrimary" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            android:enabled="false"
+            app:button_disable_solid_color="#e3e3e3"
+            app:button_disable_stroke_color="@color/colorAccent"
+            app:button_disable_stroke_width="2dp"
+            app:button_press_solid_color="@color/colorPrimaryDark"
+            app:button_press_text_color="#fff"
+            app:button_radius="10dp"
+            app:button_solid_color="@color/colorPrimary" />
+
+        <com.angcyo.button.DslButton
+            style="@style/ButtonStyle"
+            app:button_gradient_end_color="@color/colorPrimaryDark"
+            app:button_gradient_start_color="@color/colorPrimary"
+            app:button_press_text_color="#fff"
+            app:button_ripple_color="@color/colorAccent" />
     </LinearLayout>
 
 </LinearLayout>

@@ -22,6 +22,9 @@ import java.util.*
  * [android.R.attr.state_checked]
  * [android.R.attr.state_enabled]
  * [android.R.attr.state_focused]
+ *
+ * 选择状态 和 Check状态 是同样的
+ *
  * Email:angcyo@126.com
  * @author angcyo
  * @date 2019/11/28
@@ -38,6 +41,9 @@ open class DslButton : AppCompatTextView {
         val ATTR_FOCUSED = intArrayOf(android.R.attr.state_focused)
         val ATTR_DISABLE = intArrayOf(-android.R.attr.state_enabled)
     }
+
+    var buttonGradientStartColor = Color.TRANSPARENT
+    var buttonGradientEndColor = Color.TRANSPARENT
 
     /**正常状态*/
     var normalDrawable: Drawable? = null
@@ -68,12 +74,12 @@ open class DslButton : AppCompatTextView {
     var pressDashGap = 0f
     var pressRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     var pressGradientColors: IntArray? = null
-    var pressGradientColorsOffsets: FloatArray? = null
-    var pressGradientCenterX = 0.5f
-    var pressGradientCenterY = 0.5f
-    var pressGradientRadius = 0.5f
-    var pressGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
-    var pressGradientType = GradientDrawable.LINEAR_GRADIENT
+//    var pressGradientColorsOffsets: FloatArray? = null
+//    var pressGradientCenterX = 0.5f
+//    var pressGradientCenterY = 0.5f
+//    var pressGradientRadius = 0.5f
+//    var pressGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+//    var pressGradientType = GradientDrawable.LINEAR_GRADIENT
 
     /**选中状态*/
     var selectDrawable: Drawable? = null
@@ -86,30 +92,30 @@ open class DslButton : AppCompatTextView {
     var selectDashGap = 0f
     var selectRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     var selectGradientColors: IntArray? = null
-    var selectGradientColorsOffsets: FloatArray? = null
-    var selectGradientCenterX = 0.5f
-    var selectGradientCenterY = 0.5f
-    var selectGradientRadius = 0.5f
-    var selectGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
-    var selectGradientType = GradientDrawable.LINEAR_GRADIENT
+//    var selectGradientColorsOffsets: FloatArray? = null
+//    var selectGradientCenterX = 0.5f
+//    var selectGradientCenterY = 0.5f
+//    var selectGradientRadius = 0.5f
+//    var selectGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+//    var selectGradientType = GradientDrawable.LINEAR_GRADIENT
 
-    /**check状态*/
-    var checkDrawable: Drawable? = null
-    var checkTextColor: Int = Color.WHITE
-    var checkShape = GradientDrawable.RECTANGLE
-    var checkSolidColor = Color.TRANSPARENT
-    var checkStrokeColor = Color.TRANSPARENT
-    var checkStrokeWidth = 0
-    var checkDashWidth = 0f
-    var checkDashGap = 0f
-    var checkRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
-    var checkGradientColors: IntArray? = null
-    var checkGradientColorsOffsets: FloatArray? = null
-    var checkGradientCenterX = 0.5f
-    var checkGradientCenterY = 0.5f
-    var checkGradientRadius = 0.5f
-    var checkGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
-    var checkGradientType = GradientDrawable.LINEAR_GRADIENT
+//    /**check状态*/
+//    var checkDrawable: Drawable? = null
+//    var checkTextColor: Int = Color.WHITE
+//    var checkShape = GradientDrawable.RECTANGLE
+//    var checkSolidColor = Color.TRANSPARENT
+//    var checkStrokeColor = Color.TRANSPARENT
+//    var checkStrokeWidth = 0
+//    var checkDashWidth = 0f
+//    var checkDashGap = 0f
+//    var checkRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
+//    var checkGradientColors: IntArray? = null
+//    var checkGradientColorsOffsets: FloatArray? = null
+//    var checkGradientCenterX = 0.5f
+//    var checkGradientCenterY = 0.5f
+//    var checkGradientRadius = 0.5f
+//    var checkGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+//    var checkGradientType = GradientDrawable.LINEAR_GRADIENT
 
     /**焦点状态*/
     var focusDrawable: Drawable? = null
@@ -122,12 +128,12 @@ open class DslButton : AppCompatTextView {
     var focusDashGap = 0f
     var focusRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     var focusGradientColors: IntArray? = null
-    var focusGradientColorsOffsets: FloatArray? = null
-    var focusGradientCenterX = 0.5f
-    var focusGradientCenterY = 0.5f
-    var focusGradientRadius = 0.5f
-    var focusGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
-    var focusGradientType = GradientDrawable.LINEAR_GRADIENT
+//    var focusGradientColorsOffsets: FloatArray? = null
+//    var focusGradientCenterX = 0.5f
+//    var focusGradientCenterY = 0.5f
+//    var focusGradientRadius = 0.5f
+//    var focusGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+//    var focusGradientType = GradientDrawable.LINEAR_GRADIENT
 
     /**禁用状态*/
     var disableDrawable: Drawable? = null
@@ -140,16 +146,21 @@ open class DslButton : AppCompatTextView {
     var disableDashGap = 0f
     var disableRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     var disableGradientColors: IntArray? = null
-    var disableGradientColorsOffsets: FloatArray? = null
-    var disableGradientCenterX = 0.5f
-    var disableGradientCenterY = 0.5f
-    var disableGradientRadius = 0.5f
-    var disableGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
-    var disableGradientType = GradientDrawable.LINEAR_GRADIENT
+//    var disableGradientColorsOffsets: FloatArray? = null
+//    var disableGradientCenterX = 0.5f
+//    var disableGradientCenterY = 0.5f
+//    var disableGradientRadius = 0.5f
+//    var disableGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+//    var disableGradientType = GradientDrawable.LINEAR_GRADIENT
 
     /**是否使用Ripple, 需要API>=21*/
-    var enableRipple = false
-    var rippleColor = false
+    var enableRipple = true
+    var rippleColor = "#20000000".toColorInt()
+
+    /**接管文本样式设置*/
+    var enableTextStyle = true
+    /**接管背景样式设置*/
+    var enableBackgroundStyle = true
 
     constructor(context: Context) : super(context) {
         initAttribute(context, null)
@@ -170,6 +181,17 @@ open class DslButton : AppCompatTextView {
     /**xml属性读取*/
     open fun initAttribute(context: Context, attributeSet: AttributeSet? = null) {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslButton)
+
+        enableRipple =
+            typedArray.getBoolean(R.styleable.DslButton_button_enable_ripple, enableRipple)
+        enableTextStyle =
+            typedArray.getBoolean(R.styleable.DslButton_button_enable_text_style, enableTextStyle)
+        enableBackgroundStyle =
+            typedArray.getBoolean(
+                R.styleable.DslButton_button_enable_background_style,
+                enableBackgroundStyle
+            )
+        rippleColor = typedArray.getColor(R.styleable.DslButton_button_ripple_color, rippleColor)
 
         //向下覆盖属性
         initButtonAttr(typedArray)
@@ -196,15 +218,15 @@ open class DslButton : AppCompatTextView {
             normalDashGap.toInt()
         ).toFloat()
 
-        normalGradientType =
-            typedArray.getInt(R.styleable.DslButton_button_normal_gradient_type, normalGradientType)
-
-        val normalOrientation =
-            typedArray.getInt(
-                R.styleable.DslButton_button_normal_gradient_orientation,
-                normalGradientOrientation.ordinal
-            )
-        normalGradientOrientation = GradientDrawable.Orientation.values()[normalOrientation]
+//        normalGradientType =
+//            typedArray.getInt(R.styleable.DslButton_button_normal_gradient_type, normalGradientType)
+//
+//        val normalOrientation =
+//            typedArray.getInt(
+//                R.styleable.DslButton_button_normal_gradient_orientation,
+//                normalGradientOrientation.ordinal
+//            )
+//        normalGradientOrientation = GradientDrawable.Orientation.values()[normalOrientation]
 
         val normalRadius =
             typedArray.getDimensionPixelOffset(R.styleable.DslButton_button_normal_radius, 0)
@@ -231,10 +253,224 @@ open class DslButton : AppCompatTextView {
             if (startColor != endColor) {
                 intArrayOf(startColor, endColor)
             } else {
-                null
+                normalGradientColors
             }
         } else {
             _fillColor(normalColors) ?: normalGradientColors
+        }
+
+        //按下状态
+        pressDrawable = typedArray.getDrawable(R.styleable.DslButton_button_press_drawable)
+        pressTextColor =
+            typedArray.getColor(R.styleable.DslButton_button_press_text_color, pressTextColor)
+        pressShape = typedArray.getInt(R.styleable.DslButton_button_press_shape, pressShape)
+        pressSolidColor =
+            typedArray.getColor(R.styleable.DslButton_button_press_solid_color, pressSolidColor)
+        pressStrokeColor =
+            typedArray.getColor(R.styleable.DslButton_button_press_stroke_color, pressStrokeColor)
+        pressStrokeWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_press_stroke_width,
+            pressStrokeWidth
+        )
+        pressDashWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_press_dash_width,
+            pressDashWidth.toInt()
+        ).toFloat()
+        pressDashGap = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_press_dash_gap,
+            pressDashGap.toInt()
+        ).toFloat()
+        val pressRadius =
+            typedArray.getDimensionPixelOffset(R.styleable.DslButton_button_press_radius, 0)
+        if (pressRadius > 0) {
+            Arrays.fill(pressRadii, pressRadius.toFloat())
+        } else {
+            typedArray.getString(R.styleable.DslButton_button_press_radii)?.let {
+                _fillRadii(pressRadii, it)
+            }
+        }
+
+        val pressColors =
+            typedArray.getString(R.styleable.DslButton_button_press_gradient_colors)
+
+        pressGradientColors = if (pressColors.isNullOrEmpty()) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslButton_button_press_gradient_start_color,
+                Color.TRANSPARENT
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslButton_button_press_gradient_end_color,
+                Color.TRANSPARENT
+            )
+            if (startColor != endColor) {
+                intArrayOf(startColor, endColor)
+            } else {
+                pressGradientColors
+            }
+        } else {
+            _fillColor(pressColors) ?: pressGradientColors
+        }
+
+        //选择状态
+        selectDrawable = typedArray.getDrawable(R.styleable.DslButton_button_select_drawable)
+        selectTextColor =
+            typedArray.getColor(R.styleable.DslButton_button_select_text_color, selectTextColor)
+        selectShape = typedArray.getInt(R.styleable.DslButton_button_select_shape, selectShape)
+        selectSolidColor =
+            typedArray.getColor(R.styleable.DslButton_button_select_solid_color, selectSolidColor)
+        selectStrokeColor =
+            typedArray.getColor(R.styleable.DslButton_button_select_stroke_color, selectStrokeColor)
+        selectStrokeWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_select_stroke_width,
+            selectStrokeWidth
+        )
+        selectDashWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_select_dash_width,
+            selectDashWidth.toInt()
+        ).toFloat()
+        selectDashGap = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_select_dash_gap,
+            selectDashGap.toInt()
+        ).toFloat()
+        val selectRadius =
+            typedArray.getDimensionPixelOffset(R.styleable.DslButton_button_select_radius, 0)
+        if (selectRadius > 0) {
+            Arrays.fill(selectRadii, selectRadius.toFloat())
+        } else {
+            typedArray.getString(R.styleable.DslButton_button_select_radii)?.let {
+                _fillRadii(selectRadii, it)
+            }
+        }
+
+        val selectColors =
+            typedArray.getString(R.styleable.DslButton_button_select_gradient_colors)
+
+        selectGradientColors = if (selectColors.isNullOrEmpty()) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslButton_button_select_gradient_start_color,
+                Color.TRANSPARENT
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslButton_button_select_gradient_end_color,
+                Color.TRANSPARENT
+            )
+            if (startColor != endColor) {
+                intArrayOf(startColor, endColor)
+            } else {
+                selectGradientColors
+            }
+        } else {
+            _fillColor(selectColors) ?: selectGradientColors
+        }
+
+        //禁用状态
+        disableDrawable = typedArray.getDrawable(R.styleable.DslButton_button_disable_drawable)
+        disableTextColor =
+            typedArray.getColor(R.styleable.DslButton_button_disable_text_color, disableTextColor)
+        disableShape = typedArray.getInt(R.styleable.DslButton_button_disable_shape, disableShape)
+        disableSolidColor =
+            typedArray.getColor(R.styleable.DslButton_button_disable_solid_color, disableSolidColor)
+        disableStrokeColor =
+            typedArray.getColor(
+                R.styleable.DslButton_button_disable_stroke_color,
+                disableStrokeColor
+            )
+        disableStrokeWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_disable_stroke_width,
+            disableStrokeWidth
+        )
+        disableDashWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_disable_dash_width,
+            disableDashWidth.toInt()
+        ).toFloat()
+        disableDashGap = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_disable_dash_gap,
+            disableDashGap.toInt()
+        ).toFloat()
+        val disableRadius =
+            typedArray.getDimensionPixelOffset(R.styleable.DslButton_button_disable_radius, 0)
+        if (disableRadius > 0) {
+            Arrays.fill(disableRadii, disableRadius.toFloat())
+        } else {
+            typedArray.getString(R.styleable.DslButton_button_disable_radii)?.let {
+                _fillRadii(disableRadii, it)
+            }
+        }
+
+        val disableColors =
+            typedArray.getString(R.styleable.DslButton_button_disable_gradient_colors)
+
+        disableGradientColors = if (disableColors.isNullOrEmpty()) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslButton_button_disable_gradient_start_color,
+                Color.TRANSPARENT
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslButton_button_disable_gradient_end_color,
+                Color.TRANSPARENT
+            )
+            if (startColor != endColor) {
+                intArrayOf(startColor, endColor)
+            } else {
+                disableGradientColors
+            }
+        } else {
+            _fillColor(disableColors) ?: disableGradientColors
+        }
+
+        //焦点状态
+        focusDrawable = typedArray.getDrawable(R.styleable.DslButton_button_focus_drawable)
+        focusTextColor =
+            typedArray.getColor(R.styleable.DslButton_button_focus_text_color, focusTextColor)
+        focusShape = typedArray.getInt(R.styleable.DslButton_button_focus_shape, focusShape)
+        focusSolidColor =
+            typedArray.getColor(R.styleable.DslButton_button_focus_solid_color, focusSolidColor)
+        focusStrokeColor =
+            typedArray.getColor(
+                R.styleable.DslButton_button_focus_stroke_color,
+                focusStrokeColor
+            )
+        focusStrokeWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_focus_stroke_width,
+            focusStrokeWidth
+        )
+        focusDashWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_focus_dash_width,
+            focusDashWidth.toInt()
+        ).toFloat()
+        focusDashGap = typedArray.getDimensionPixelOffset(
+            R.styleable.DslButton_button_focus_dash_gap,
+            focusDashGap.toInt()
+        ).toFloat()
+        val focusRadius =
+            typedArray.getDimensionPixelOffset(R.styleable.DslButton_button_focus_radius, 0)
+        if (focusRadius > 0) {
+            Arrays.fill(focusRadii, focusRadius.toFloat())
+        } else {
+            typedArray.getString(R.styleable.DslButton_button_focus_radii)?.let {
+                _fillRadii(focusRadii, it)
+            }
+        }
+
+        val focusColors =
+            typedArray.getString(R.styleable.DslButton_button_focus_gradient_colors)
+
+        focusGradientColors = if (focusColors.isNullOrEmpty()) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslButton_button_focus_gradient_start_color,
+                Color.TRANSPARENT
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslButton_button_focus_gradient_end_color,
+                Color.TRANSPARENT
+            )
+            if (startColor != endColor) {
+                intArrayOf(startColor, endColor)
+            } else {
+                focusGradientColors
+            }
+        } else {
+            _fillColor(focusColors) ?: focusGradientColors
         }
 
         typedArray.recycle()
@@ -242,21 +478,31 @@ open class DslButton : AppCompatTextView {
         if (normalDrawable == null) {
             updateNormalDrawable()
         }
+        if (pressDrawable == null) {
+            updatePressDrawable()
+        }
+        if (selectDrawable == null) {
+            updateSelectDrawable()
+        }
+        if (focusDrawable == null) {
+            updateFocusDrawable()
+        }
+        if (disableDrawable == null) {
+            updateDisableDrawable()
+        }
 
         updateButton()
     }
 
     open fun initButtonAttr(typedArray: TypedArray) {
-        if (typedArray.hasValue(R.styleable.DslButton_button_text_color)) {
-            val bTextColor =
-                typedArray.getColor(R.styleable.DslButton_button_text_color, normalTextColor)
-            normalTextColor = bTextColor
-            pressTextColor = bTextColor
-            focusTextColor = bTextColor
-            selectTextColor = bTextColor
-            checkTextColor = bTextColor
-            disableTextColor = bTextColor
-        }
+        val bTextColor =
+            typedArray.getColor(R.styleable.DslButton_button_text_color, currentTextColor)
+        normalTextColor = bTextColor
+        pressTextColor = bTextColor
+        focusTextColor = bTextColor
+        selectTextColor = bTextColor
+//            checkTextColor = bTextColor
+        disableTextColor = bTextColor
 
         if (typedArray.hasValue(R.styleable.DslButton_button_shape)) {
             val bShape = typedArray.getInt(R.styleable.DslButton_button_shape, normalShape)
@@ -264,7 +510,7 @@ open class DslButton : AppCompatTextView {
             pressShape = bShape
             focusShape = bShape
             selectShape = bShape
-            checkShape = bShape
+//            checkShape = bShape
             disableShape = bShape
         }
 
@@ -275,7 +521,7 @@ open class DslButton : AppCompatTextView {
             pressSolidColor = bSolidColor
             focusSolidColor = bSolidColor
             selectSolidColor = bSolidColor
-            checkSolidColor = bSolidColor
+//            checkSolidColor = bSolidColor
             disableSolidColor = bSolidColor
         }
 
@@ -286,7 +532,7 @@ open class DslButton : AppCompatTextView {
             pressStrokeColor = bStrokeColor
             focusStrokeColor = bStrokeColor
             selectStrokeColor = bStrokeColor
-            checkStrokeColor = bStrokeColor
+//            checkStrokeColor = bStrokeColor
             disableStrokeColor = bStrokeColor
         }
 
@@ -299,7 +545,7 @@ open class DslButton : AppCompatTextView {
             pressStrokeWidth = bStrokeWidth
             focusStrokeWidth = bStrokeWidth
             selectStrokeWidth = bStrokeWidth
-            checkStrokeWidth = bStrokeWidth
+//            checkStrokeWidth = bStrokeWidth
             disableStrokeWidth = bStrokeWidth
         }
 
@@ -312,7 +558,7 @@ open class DslButton : AppCompatTextView {
             pressDashWidth = bDashWidth
             focusDashWidth = bDashWidth
             selectDashWidth = bDashWidth
-            checkDashWidth = bDashWidth
+//            checkDashWidth = bDashWidth
             disableDashWidth = bDashWidth
         }
 
@@ -326,7 +572,7 @@ open class DslButton : AppCompatTextView {
             pressDashGap = bDashGap
             focusDashGap = bDashGap
             selectDashGap = bDashGap
-            checkDashGap = bDashGap
+//            checkDashGap = bDashGap
             disableDashGap = bDashGap
         }
 
@@ -335,11 +581,11 @@ open class DslButton : AppCompatTextView {
                 typedArray.getInt(R.styleable.DslButton_button_gradient_type, normalGradientType)
 
             normalGradientType = bGradientType
-            pressGradientType = bGradientType
-            focusGradientType = bGradientType
-            selectGradientType = bGradientType
-            checkGradientType = bGradientType
-            disableGradientType = bGradientType
+//            pressGradientType = bGradientType
+//            focusGradientType = bGradientType
+//            selectGradientType = bGradientType
+//            checkGradientType = bGradientType
+//            disableGradientType = bGradientType
         }
 
         if (typedArray.hasValue(R.styleable.DslButton_button_gradient_orientation)) {
@@ -351,11 +597,11 @@ open class DslButton : AppCompatTextView {
             val bGradientOrientation = GradientDrawable.Orientation.values()[bOrientation]
 
             normalGradientOrientation = bGradientOrientation
-            pressGradientOrientation = bGradientOrientation
-            focusGradientOrientation = bGradientOrientation
-            selectGradientOrientation = bGradientOrientation
-            checkGradientOrientation = bGradientOrientation
-            disableGradientOrientation = bGradientOrientation
+//            pressGradientOrientation = bGradientOrientation
+//            focusGradientOrientation = bGradientOrientation
+//            selectGradientOrientation = bGradientOrientation
+//            checkGradientOrientation = bGradientOrientation
+//            disableGradientOrientation = bGradientOrientation
         }
 
         val bRadius =
@@ -365,7 +611,7 @@ open class DslButton : AppCompatTextView {
             Arrays.fill(pressRadii, bRadius.toFloat())
             Arrays.fill(focusRadii, bRadius.toFloat())
             Arrays.fill(selectRadii, bRadius.toFloat())
-            Arrays.fill(checkRadii, bRadius.toFloat())
+//            Arrays.fill(checkRadii, bRadius.toFloat())
             Arrays.fill(disableRadii, bRadius.toFloat())
         } else {
             typedArray.getString(R.styleable.DslButton_button_radii)?.let {
@@ -373,7 +619,7 @@ open class DslButton : AppCompatTextView {
                 _fillRadii(pressRadii, it)
                 _fillRadii(focusRadii, it)
                 _fillRadii(selectRadii, it)
-                _fillRadii(checkRadii, it)
+//                _fillRadii(checkRadii, it)
                 _fillRadii(disableRadii, it)
             }
         }
@@ -382,16 +628,16 @@ open class DslButton : AppCompatTextView {
             typedArray.getString(R.styleable.DslButton_button_gradient_colors)
 
         val bGradientColors = if (bColors.isNullOrEmpty()) {
-            val startColor = typedArray.getColor(
+            buttonGradientStartColor = typedArray.getColor(
                 R.styleable.DslButton_button_gradient_start_color,
-                Color.TRANSPARENT
+                buttonGradientStartColor
             )
-            val endColor = typedArray.getColor(
+            buttonGradientEndColor = typedArray.getColor(
                 R.styleable.DslButton_button_gradient_end_color,
-                Color.TRANSPARENT
+                buttonGradientEndColor
             )
-            if (startColor != endColor) {
-                intArrayOf(startColor, endColor)
+            if (buttonGradientStartColor != buttonGradientEndColor) {
+                intArrayOf(buttonGradientStartColor, buttonGradientEndColor)
             } else {
                 null
             }
@@ -399,11 +645,16 @@ open class DslButton : AppCompatTextView {
             _fillColor(bColors)
         }
         normalGradientColors = bGradientColors
-        pressGradientColors = bGradientColors
-        focusGradientColors = bGradientColors
-        selectGradientColors = bGradientColors
-        checkGradientColors = bGradientColors
-        disableGradientColors = bGradientColors
+        pressGradientColors =
+            bGradientColors?.run { IntArray(bGradientColors.size) { bGradientColors[it] } }
+        focusGradientColors =
+            bGradientColors?.run { IntArray(bGradientColors.size) { bGradientColors[it] } }
+        selectGradientColors =
+            bGradientColors?.run { IntArray(bGradientColors.size) { bGradientColors[it] } }
+//        checkGradientColors =
+//            bGradientColors?.run { IntArray(bGradientColors.size) { bGradientColors[it] } }
+        disableGradientColors =
+            bGradientColors?.run { IntArray(bGradientColors.size) { bGradientColors[it] } }
     }
 
     fun _fillRadii(array: FloatArray, radii: String?) {
@@ -427,11 +678,7 @@ open class DslButton : AppCompatTextView {
         }
         val split = colors.split(",")
 
-        val array = IntArray(split.size)
-        for (i in split.indices) {
-            array[i] = split[i].toColorInt()
-        }
-        return array
+        return IntArray(split.size) { split[it].toColorInt() }
     }
 
     open fun updateNormalDrawable() {
@@ -455,23 +702,87 @@ open class DslButton : AppCompatTextView {
     }
 
     open fun updateDisableDrawable() {
-
+        DslGradientDrawable().apply {
+            gradientShape = disableShape
+            gradientSolidColor = disableSolidColor
+            gradientStrokeColor = disableStrokeColor
+            gradientStrokeWidth = disableStrokeWidth
+            gradientDashWidth = disableDashWidth
+            gradientDashGap = disableDashGap
+            gradientRadii = disableRadii
+            gradientColors = disableGradientColors
+            gradientColorsOffsets = normalGradientColorsOffsets
+            gradientCenterX = normalGradientCenterX
+            gradientCenterY = normalGradientCenterY
+            gradientRadius = normalGradientRadius
+            gradientOrientation = normalGradientOrientation
+            gradientType = normalGradientType
+            disableDrawable = generateDrawable()
+        }
     }
 
     open fun updateFocusDrawable() {
-
+        DslGradientDrawable().apply {
+            gradientShape = focusShape
+            gradientSolidColor = focusSolidColor
+            gradientStrokeColor = focusStrokeColor
+            gradientStrokeWidth = focusStrokeWidth
+            gradientDashWidth = focusDashWidth
+            gradientDashGap = focusDashGap
+            gradientRadii = focusRadii
+            gradientColors = focusGradientColors
+            gradientColorsOffsets = normalGradientColorsOffsets
+            gradientCenterX = normalGradientCenterX
+            gradientCenterY = normalGradientCenterY
+            gradientRadius = normalGradientRadius
+            gradientOrientation = normalGradientOrientation
+            gradientType = normalGradientType
+            focusDrawable = generateDrawable()
+        }
     }
 
     open fun updatePressDrawable() {
-
+        DslGradientDrawable().apply {
+            gradientShape = pressShape
+            gradientSolidColor = pressSolidColor
+            gradientStrokeColor = pressStrokeColor
+            gradientStrokeWidth = pressStrokeWidth
+            gradientDashWidth = pressDashWidth
+            gradientDashGap = pressDashGap
+            gradientRadii = pressRadii
+            gradientColors = pressGradientColors
+            gradientColorsOffsets = normalGradientColorsOffsets
+            gradientCenterX = normalGradientCenterX
+            gradientCenterY = normalGradientCenterY
+            gradientRadius = normalGradientRadius
+            gradientOrientation = normalGradientOrientation
+            gradientType = normalGradientType
+            pressDrawable = generateDrawable()
+        }
     }
 
     open fun updateSelectDrawable() {
-
+        DslGradientDrawable().apply {
+            gradientShape = selectShape
+            gradientSolidColor = selectSolidColor
+            gradientStrokeColor = selectStrokeColor
+            gradientStrokeWidth = selectStrokeWidth
+            gradientDashWidth = selectDashWidth
+            gradientDashGap = selectDashGap
+            gradientRadii = selectRadii
+            gradientColors = selectGradientColors
+            gradientColorsOffsets = normalGradientColorsOffsets
+            gradientCenterX = normalGradientCenterX
+            gradientCenterY = normalGradientCenterY
+            gradientRadius = normalGradientRadius
+            gradientOrientation = normalGradientOrientation
+            gradientType = normalGradientType
+            selectDrawable = generateDrawable()
+        }
     }
 
     open fun updateCheckDrawable() {
-
+        //nothing
     }
 
     open fun updateDrawable() {
@@ -485,46 +796,51 @@ open class DslButton : AppCompatTextView {
     }
 
     open fun updateButton() {
-        //文本状态颜色
-        val textColorList =
-            ColorStateList(
-                arrayOf(
-                    ATTR_DISABLE,
-                    ATTR_FOCUSED,
-                    ATTR_PRESSED,
-                    ATTR_SELECTED,
-                    ATTR_CHECKED,
-                    ATTR_NORMAL
-                ),
-                intArrayOf(
-                    disableTextColor,
-                    focusTextColor,
-                    pressTextColor,
-                    selectTextColor,
-                    checkTextColor,
-                    normalTextColor
+        if (enableTextStyle) {
+            //文本状态颜色
+            val textColorList =
+                ColorStateList(
+                    arrayOf(
+                        ATTR_DISABLE,
+                        ATTR_FOCUSED,
+                        ATTR_PRESSED,
+                        ATTR_SELECTED,
+                        ATTR_CHECKED,
+                        ATTR_NORMAL
+                    ),
+                    intArrayOf(
+                        disableTextColor,
+                        focusTextColor,
+                        pressTextColor,
+                        selectTextColor,
+                        selectTextColor,
+                        normalTextColor
+                    )
                 )
-            )
-        setTextColor(textColorList)
+            setTextColor(textColorList)
+        }
 
-        //背景状态颜色
-        val backgroundDrawable: Drawable
-        val contentDrawable = StateListDrawable()
+        if (enableBackgroundStyle) {
 
-        contentDrawable.addState(ATTR_DISABLE, disableDrawable)
-        contentDrawable.addState(ATTR_FOCUSED, focusDrawable)
-        contentDrawable.addState(ATTR_PRESSED, pressDrawable)
-        contentDrawable.addState(ATTR_SELECTED, selectDrawable)
-        contentDrawable.addState(ATTR_CHECKED, checkDrawable)
-        contentDrawable.addState(ATTR_NORMAL, normalDrawable)
+            //背景状态颜色
+            val backgroundDrawable: Drawable
+            val contentDrawable = StateListDrawable()
 
-        backgroundDrawable =
-            if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                RippleDrawable(textColorList, contentDrawable, null)
-            } else {
-                contentDrawable
-            }
+            contentDrawable.addState(ATTR_DISABLE, disableDrawable)
+            contentDrawable.addState(ATTR_FOCUSED, focusDrawable)
+            contentDrawable.addState(ATTR_PRESSED, pressDrawable)
+            contentDrawable.addState(ATTR_SELECTED, selectDrawable)
+            contentDrawable.addState(ATTR_CHECKED, selectDrawable)
+            contentDrawable.addState(ATTR_NORMAL, normalDrawable)
 
-        ViewCompat.setBackground(this, backgroundDrawable)
+            backgroundDrawable =
+                if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    RippleDrawable(ColorStateList.valueOf(rippleColor), contentDrawable, null)
+                } else {
+                    contentDrawable
+                }
+
+            ViewCompat.setBackground(this, backgroundDrawable)
+        }
     }
 }
