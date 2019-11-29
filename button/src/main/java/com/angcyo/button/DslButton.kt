@@ -40,6 +40,8 @@ open class DslButton : AppCompatTextView {
         val ATTR_CHECKED = intArrayOf(android.R.attr.state_checked)
         val ATTR_FOCUSED = intArrayOf(android.R.attr.state_focused)
         val ATTR_DISABLE = intArrayOf(-android.R.attr.state_enabled)
+
+        private const val NO_COLOR = -2
     }
 
     var buttonGradientStartColor = Color.TRANSPARENT
@@ -49,8 +51,8 @@ open class DslButton : AppCompatTextView {
     var normalDrawable: Drawable? = null
     var normalTextColor: Int = Color.WHITE
     var normalShape = GradientDrawable.RECTANGLE
-    var normalSolidColor = Color.TRANSPARENT
-    var normalStrokeColor = Color.TRANSPARENT
+    var normalSolidColor = NO_COLOR
+    var normalStrokeColor = NO_COLOR
     var normalStrokeWidth = 0
     var normalDashWidth = 0f
     var normalDashGap = 0f
@@ -67,8 +69,8 @@ open class DslButton : AppCompatTextView {
     var pressDrawable: Drawable? = null
     var pressTextColor: Int = Color.WHITE
     var pressShape = GradientDrawable.RECTANGLE
-    var pressSolidColor = Color.TRANSPARENT
-    var pressStrokeColor = Color.TRANSPARENT
+    var pressSolidColor = NO_COLOR
+    var pressStrokeColor = NO_COLOR
     var pressStrokeWidth = 0
     var pressDashWidth = 0f
     var pressDashGap = 0f
@@ -85,8 +87,8 @@ open class DslButton : AppCompatTextView {
     var selectDrawable: Drawable? = null
     var selectTextColor: Int = Color.WHITE
     var selectShape = GradientDrawable.RECTANGLE
-    var selectSolidColor = Color.TRANSPARENT
-    var selectStrokeColor = Color.TRANSPARENT
+    var selectSolidColor = NO_COLOR
+    var selectStrokeColor = NO_COLOR
     var selectStrokeWidth = 0
     var selectDashWidth = 0f
     var selectDashGap = 0f
@@ -103,8 +105,8 @@ open class DslButton : AppCompatTextView {
 //    var checkDrawable: Drawable? = null
 //    var checkTextColor: Int = Color.WHITE
 //    var checkShape = GradientDrawable.RECTANGLE
-//    var checkSolidColor = Color.TRANSPARENT
-//    var checkStrokeColor = Color.TRANSPARENT
+//    var checkSolidColor = NO_COLOR
+//    var checkStrokeColor = NO_COLOR
 //    var checkStrokeWidth = 0
 //    var checkDashWidth = 0f
 //    var checkDashGap = 0f
@@ -121,8 +123,8 @@ open class DslButton : AppCompatTextView {
     var focusDrawable: Drawable? = null
     var focusTextColor: Int = Color.WHITE
     var focusShape = GradientDrawable.RECTANGLE
-    var focusSolidColor = Color.TRANSPARENT
-    var focusStrokeColor = Color.TRANSPARENT
+    var focusSolidColor = NO_COLOR
+    var focusStrokeColor = NO_COLOR
     var focusStrokeWidth = 0
     var focusDashWidth = 0f
     var focusDashGap = 0f
@@ -139,8 +141,8 @@ open class DslButton : AppCompatTextView {
     var disableDrawable: Drawable? = null
     var disableTextColor: Int = Color.WHITE
     var disableShape = GradientDrawable.RECTANGLE
-    var disableSolidColor = Color.TRANSPARENT
-    var disableStrokeColor = Color.TRANSPARENT
+    var disableSolidColor = NO_COLOR
+    var disableStrokeColor = NO_COLOR
     var disableStrokeWidth = 0
     var disableDashWidth = 0f
     var disableDashGap = 0f
@@ -160,7 +162,7 @@ open class DslButton : AppCompatTextView {
     /**接管文本样式设置*/
     var enableTextStyle = true
     /**接管背景样式设置*/
-    var enableBackgroundStyle = true
+    var enableBackgroundStyle = false
 
     constructor(context: Context) : super(context) {
         initAttribute(context, null)
@@ -189,7 +191,7 @@ open class DslButton : AppCompatTextView {
         enableBackgroundStyle =
             typedArray.getBoolean(
                 R.styleable.DslButton_button_enable_background_style,
-                enableBackgroundStyle
+                background == null //智能开启
             )
         rippleColor = typedArray.getColor(R.styleable.DslButton_button_ripple_color, rippleColor)
 
@@ -475,19 +477,29 @@ open class DslButton : AppCompatTextView {
 
         typedArray.recycle()
 
-        if (normalDrawable == null) {
+        if (normalDrawable == null &&
+            (normalGradientColors != null || normalSolidColor != NO_COLOR || normalStrokeColor != NO_COLOR)
+        ) {
             updateNormalDrawable()
         }
-        if (pressDrawable == null) {
+        if (pressDrawable == null &&
+            (pressGradientColors != null || pressSolidColor != NO_COLOR || pressStrokeColor != NO_COLOR)
+        ) {
             updatePressDrawable()
         }
-        if (selectDrawable == null) {
+        if (selectDrawable == null &&
+            (selectGradientColors != null || selectSolidColor != NO_COLOR || selectStrokeColor != NO_COLOR)
+        ) {
             updateSelectDrawable()
         }
-        if (focusDrawable == null) {
+        if (focusDrawable == null &&
+            (focusGradientColors != null || focusSolidColor != NO_COLOR || focusStrokeColor != NO_COLOR)
+        ) {
             updateFocusDrawable()
         }
-        if (disableDrawable == null) {
+        if (disableDrawable == null &&
+            (disableGradientColors != null || disableSolidColor != NO_COLOR || disableStrokeColor != NO_COLOR)
+        ) {
             updateDisableDrawable()
         }
 
@@ -681,11 +693,13 @@ open class DslButton : AppCompatTextView {
         return IntArray(split.size) { split[it].toColorInt() }
     }
 
+    fun Int.color(df: Int = Color.TRANSPARENT): Int = if (this == NO_COLOR) df else this
+
     open fun updateNormalDrawable() {
         DslGradientDrawable().apply {
             gradientShape = normalShape
-            gradientSolidColor = normalSolidColor
-            gradientStrokeColor = normalStrokeColor
+            gradientSolidColor = normalSolidColor.color()
+            gradientStrokeColor = normalStrokeColor.color()
             gradientStrokeWidth = normalStrokeWidth
             gradientDashWidth = normalDashWidth
             gradientDashGap = normalDashGap
@@ -704,8 +718,8 @@ open class DslButton : AppCompatTextView {
     open fun updateDisableDrawable() {
         DslGradientDrawable().apply {
             gradientShape = disableShape
-            gradientSolidColor = disableSolidColor
-            gradientStrokeColor = disableStrokeColor
+            gradientSolidColor = disableSolidColor.color()
+            gradientStrokeColor = disableStrokeColor.color()
             gradientStrokeWidth = disableStrokeWidth
             gradientDashWidth = disableDashWidth
             gradientDashGap = disableDashGap
@@ -724,8 +738,8 @@ open class DslButton : AppCompatTextView {
     open fun updateFocusDrawable() {
         DslGradientDrawable().apply {
             gradientShape = focusShape
-            gradientSolidColor = focusSolidColor
-            gradientStrokeColor = focusStrokeColor
+            gradientSolidColor = focusSolidColor.color()
+            gradientStrokeColor = focusStrokeColor.color()
             gradientStrokeWidth = focusStrokeWidth
             gradientDashWidth = focusDashWidth
             gradientDashGap = focusDashGap
@@ -744,8 +758,8 @@ open class DslButton : AppCompatTextView {
     open fun updatePressDrawable() {
         DslGradientDrawable().apply {
             gradientShape = pressShape
-            gradientSolidColor = pressSolidColor
-            gradientStrokeColor = pressStrokeColor
+            gradientSolidColor = pressSolidColor.color()
+            gradientStrokeColor = pressStrokeColor.color()
             gradientStrokeWidth = pressStrokeWidth
             gradientDashWidth = pressDashWidth
             gradientDashGap = pressDashGap
@@ -764,8 +778,8 @@ open class DslButton : AppCompatTextView {
     open fun updateSelectDrawable() {
         DslGradientDrawable().apply {
             gradientShape = selectShape
-            gradientSolidColor = selectSolidColor
-            gradientStrokeColor = selectStrokeColor
+            gradientSolidColor = selectSolidColor.color()
+            gradientStrokeColor = selectStrokeColor.color()
             gradientStrokeWidth = selectStrokeWidth
             gradientDashWidth = selectDashWidth
             gradientDashGap = selectDashGap
@@ -823,15 +837,19 @@ open class DslButton : AppCompatTextView {
         if (enableBackgroundStyle) {
 
             //背景状态颜色
-            val backgroundDrawable: Drawable
-            val contentDrawable = StateListDrawable()
+            val backgroundDrawable: Drawable?
+            val stateDrawable = StateListDrawable()
+            var contentDrawable: Drawable? = null
 
-            contentDrawable.addState(ATTR_DISABLE, disableDrawable)
-            contentDrawable.addState(ATTR_FOCUSED, focusDrawable)
-            contentDrawable.addState(ATTR_PRESSED, pressDrawable)
-            contentDrawable.addState(ATTR_SELECTED, selectDrawable)
-            contentDrawable.addState(ATTR_CHECKED, selectDrawable)
-            contentDrawable.addState(ATTR_NORMAL, normalDrawable)
+            disableDrawable?.run { stateDrawable.addState(ATTR_DISABLE, this) }
+            focusDrawable?.run { stateDrawable.addState(ATTR_FOCUSED, this) }
+            pressDrawable?.run { stateDrawable.addState(ATTR_PRESSED, this) }
+            selectDrawable?.run { stateDrawable.addState(ATTR_SELECTED, this) }
+            normalDrawable?.run { stateDrawable.addState(ATTR_NORMAL, this) }
+
+            if (stateDrawable.stateCount > 0) {
+                contentDrawable = stateDrawable
+            }
 
             backgroundDrawable =
                 if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
