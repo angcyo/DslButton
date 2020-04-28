@@ -13,6 +13,13 @@
 ![](https://img.shields.io/badge/License-MIT-EA66AC) ![](https://img.shields.io/badge/Api-11+-FA773C) ![](https://img.shields.io/badge/AndroidX-yes-DA883C)
 ![](https://img.shields.io/badge/Kotlin-yes-B0C909)
 
+**特性:**
+
+- 支持颜色渐变
+- 支持`ripple`(api>=21)
+- 支持圆角
+- 支持预设`style`
+
 
 ![](https://raw.githubusercontent.com/angcyo/DslButton/master/png/button.png)
 
