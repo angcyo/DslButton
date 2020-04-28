@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="lib_bg_press">#20000000</color>
+    <color name="lib_white">#FFFFFF</color>
+    <color name="lib_white_press">#E0E0E0</color>
+
+    <color name="lib_white_dark">#F5F5F5</color>
+    <color name="lib_black">#000000</color>
+    <color name="lib_line">#D5D5D5</color>
+    <color name="lib_line_dark">#E1E2E6</color>
+    <color name="lib_disable_bg_color">#C9CACC</color>
+
+    <!--伪造出来的状态栏颜色-->
+    <color name="lib_status_bar_dim">#20000000</color>
+
+    <color name="lib_tran_dark">#80000000</color>
+
+    <color name="lib_icon_dark_color">#5C5D5E</color>
+    <color name="lib_image_placeholder_color">#474849</color>
+
+    <!--全透明-->
+    <color name="transparent">#00000000</color>
+    <color name="transparent10">#1A000000</color>
+    <!--不透明度20%-->
+    <color name="transparent20">#33000000</color>
+    <color name="transparent30">#4D000000</color>
+    <color name="transparent40">#66000000</color>
+    <color name="transparent50">#80000000</color>
+    <color name="transparent60">#99000000</color>
+    <color name="transparent80">#CC000000</color>
+    <!--不透明度100%-->
+    <color name="transparent100">#FF000000</color>
+</resources>

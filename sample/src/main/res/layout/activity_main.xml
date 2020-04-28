@@ -10,19 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             android:textColor="@color/colorAccent" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_start_color="@color/colorAccent" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_end_color="@color/colorPrimaryDark" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_end_color="@color/colorPrimaryDark"
             app:button_gradient_start_color="@color/colorAccent" />
@@ -33,19 +33,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             android:textColor="@color/colorAccent"
             app:button_press_solid_color="@color/colorPrimaryDark"
             app:button_press_text_color="#ffffff"
             app:button_radius="10dp" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_colors="#908912,#F90B1A,#777888"
             app:button_radius="10dp" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_colors="#908912,#F90B1A,#777888"
             app:button_gradient_orientation="TL_BR"
@@ -60,14 +60,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             android:textColor="@color/colorAccent"
             app:button_press_solid_color="@color/colorPrimaryDark"
             app:button_press_text_color="#ffffff"
             app:button_radius="10dp" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_normal_stroke_color="@color/colorAccent"
             app:button_normal_stroke_width="2dp"
@@ -75,7 +75,7 @@
             app:button_press_solid_color="@color/colorPrimary"
             app:button_press_text_color="#fff" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_dash_gap="2dp"
             app:button_dash_width="4dp"
@@ -92,14 +92,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_press_solid_color="@color/colorPrimaryDark"
             app:button_press_text_color="#fff"
             app:button_radius="10dp"
             app:button_solid_color="@color/colorPrimary" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             android:enabled="false"
             app:button_disable_solid_color="#e3e3e3"
@@ -110,12 +110,46 @@
             app:button_radius="10dp"
             app:button_solid_color="@color/colorPrimary" />
 
-        <com.angcyo.button.DslButton
+        <com.angcyo.widget.DslButton
             style="@style/ButtonStyle"
             app:button_gradient_end_color="@color/colorPrimaryDark"
             app:button_gradient_start_color="@color/colorPrimary"
             app:button_press_text_color="#fff"
             app:button_ripple_color="@color/colorAccent" />
     </LinearLayout>
+
+    <com.angcyo.widget.DslButton
+        style="@style/DefaultButtonMinStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lib_xhdpi"
+        android:minHeight="@dimen/lib_item_min_height"
+        android:text="按钮" />
+
+    <com.angcyo.widget.DslButton
+        style="@style/DefaultButtonMinStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lib_xhdpi"
+        android:minHeight="@dimen/lib_item_min_height"
+        android:text="按钮"
+        app:button_radius="@dimen/lib_radius_max" />
+
+    <com.angcyo.widget.DslButton
+        style="@style/LibButtonBorderSelectorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lib_xhdpi"
+        android:minHeight="@dimen/lib_item_min_height"
+        android:text="按钮" />
+
+    <com.angcyo.widget.DslButton
+        style="@style/LibButtonBorderSelectorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lib_xhdpi"
+        android:minHeight="@dimen/lib_item_min_height"
+        android:text="按钮"
+        app:button_radius="@dimen/lib_radius_max" />
 
 </LinearLayout>
