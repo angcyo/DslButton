@@ -14,8 +14,6 @@
 ![](https://img.shields.io/badge/Kotlin-yes-B0C909)
 
 
-本库提供2个自定义`span`(`DslTextSpan` `DslDrawableSpan`) 和一个`SpannableStringBuilder`工具类`DslSpan`
-
 ![](https://raw.githubusercontent.com/angcyo/DslButton/master/png/button.png)
 
 # 属性大全
