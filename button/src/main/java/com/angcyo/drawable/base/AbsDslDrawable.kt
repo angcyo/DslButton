@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.view.ViewCompat
 import com.angcyo.dp
 
 /**
@@ -16,6 +17,7 @@ import com.angcyo.dp
  * @date 2019/11/25
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
+
 abstract class AbsDslDrawable : Drawable() {
 
     companion object {
@@ -37,6 +39,9 @@ abstract class AbsDslDrawable : Drawable() {
             isFilterBitmap = true
             style = Paint.Style.FILL
             textSize = 12 * dp
+            color = Color.BLACK
+            strokeJoin = Paint.Join.ROUND
+            strokeCap = Paint.Cap.ROUND
         }
     }
 
@@ -55,11 +60,14 @@ abstract class AbsDslDrawable : Drawable() {
         //typedArray.recycle()
     }
 
+    /**标识, 是否需要半透明*/
+    var isTranslucent: Boolean? = null
+
     //<editor-fold desc="View相关方法">
 
     /**附着的[View]*/
     val attachView: View?
-        get() = callback as? View
+        get() = if (callback is View) callback as? View else null
 
     val isInEditMode: Boolean
         get() = attachView?.isInEditMode ?: false
@@ -79,6 +87,9 @@ abstract class AbsDslDrawable : Drawable() {
         get() = viewHeight - paddingTop - paddingBottom
     val viewDrawWidth: Int
         get() = viewWidth - paddingLeft - paddingRight
+
+    val isViewRtl: Boolean
+        get() = attachView != null && ViewCompat.getLayoutDirection(attachView!!) == ViewCompat.LAYOUT_DIRECTION_RTL
 
     //</editor-fold desc="View相关方法">
 
@@ -118,6 +129,8 @@ abstract class AbsDslDrawable : Drawable() {
 
     override fun setBounds(left: Int, top: Int, right: Int, bottom: Int) {
         super.setBounds(left, top, right, bottom)
+        drawRect.set(left, top, right, bottom)
+        drawRectF.set(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
     }
 
     override fun setBounds(bounds: Rect) {
@@ -126,7 +139,12 @@ abstract class AbsDslDrawable : Drawable() {
 
     //不透明度
     override fun getOpacity(): Int {
-        return if (alpha < 255) PixelFormat.TRANSLUCENT else PixelFormat.OPAQUE
+        val translucent = isTranslucent
+        return if (translucent == null) {
+            if (alpha < 255) PixelFormat.TRANSLUCENT else PixelFormat.OPAQUE /*不需要alpha通道*/
+        } else {
+            if (translucent) PixelFormat.TRANSLUCENT else PixelFormat.OPAQUE
+        }
     }
 
     override fun getColorFilter(): ColorFilter? {
@@ -156,8 +174,14 @@ abstract class AbsDslDrawable : Drawable() {
         return textPaint.isFilterBitmap
     }
 
+    var _lastBounds: Rect? = null
+
     override fun onBoundsChange(bounds: Rect?) {
         super.onBoundsChange(bounds)
+        if (attachView?.isInEditMode != true && _lastBounds != bounds) {
+            _lastBounds = bounds
+            //L.v("${hash()} bound change:$bounds")
+        }
     }
 
     override fun onLevelChange(level: Int): Boolean {

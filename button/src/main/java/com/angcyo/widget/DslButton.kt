@@ -3,6 +3,7 @@ package com.angcyo.widget
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -14,7 +15,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import com.angcyo.button.R
+import com.angcyo.dpi
 import com.angcyo.drawable.base.DslGradientDrawable
+import com.angcyo.widget.DslButton.Companion.NO_COLOR
 import java.util.*
 
 /**
@@ -45,11 +48,8 @@ open class DslButton : AppCompatTextView {
         val ATTR_FOCUSED = intArrayOf(android.R.attr.state_focused)
         val ATTR_DISABLE = intArrayOf(-android.R.attr.state_enabled)
 
-        private const val NO_COLOR = -2
+        const val NO_COLOR = -2
     }
-
-    var buttonGradientStartColor = Color.TRANSPARENT
-    var buttonGradientEndColor = Color.TRANSPARENT
 
     /**正常状态*/
     var normalDrawable: Drawable? = null
@@ -188,20 +188,16 @@ open class DslButton : AppCompatTextView {
     /**xml属性读取*/
     fun initAttribute(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0) {
         val typedArray =
-            context.obtainStyledAttributes(
-                attributeSet,
-                R.styleable.DslButton, defStyleAttr, 0
-            )
+            context.obtainStyledAttributes(attributeSet, R.styleable.DslButton, defStyleAttr, 0)
 
         enableRipple =
             typedArray.getBoolean(R.styleable.DslButton_button_enable_ripple, enableRipple)
         enableTextStyle =
             typedArray.getBoolean(R.styleable.DslButton_button_enable_text_style, enableTextStyle)
-        enableBackgroundStyle =
-            typedArray.getBoolean(
-                R.styleable.DslButton_button_enable_background_style,
-                background == null //智能开启
-            )
+        enableBackgroundStyle = typedArray.getBoolean(
+            R.styleable.DslButton_button_enable_background_style,
+            background == null //智能开启
+        )
         rippleColor = typedArray.getColor(R.styleable.DslButton_button_ripple_color, rippleColor)
 
         //向下覆盖属性
@@ -335,11 +331,10 @@ open class DslButton : AppCompatTextView {
         disableShape = typedArray.getInt(R.styleable.DslButton_button_disable_shape, disableShape)
         disableSolidColor =
             typedArray.getColor(R.styleable.DslButton_button_disable_solid_color, disableSolidColor)
-        disableStrokeColor =
-            typedArray.getColor(
-                R.styleable.DslButton_button_disable_stroke_color,
-                disableStrokeColor
-            )
+        disableStrokeColor = typedArray.getColor(
+            R.styleable.DslButton_button_disable_stroke_color,
+            disableStrokeColor
+        )
         disableStrokeWidth = typedArray.getDimensionPixelOffset(
             R.styleable.DslButton_button_disable_stroke_width,
             disableStrokeWidth
@@ -375,11 +370,10 @@ open class DslButton : AppCompatTextView {
         focusShape = typedArray.getInt(R.styleable.DslButton_button_focus_shape, focusShape)
         focusSolidColor =
             typedArray.getColor(R.styleable.DslButton_button_focus_solid_color, focusSolidColor)
-        focusStrokeColor =
-            typedArray.getColor(
-                R.styleable.DslButton_button_focus_stroke_color,
-                focusStrokeColor
-            )
+        focusStrokeColor = typedArray.getColor(
+            R.styleable.DslButton_button_focus_stroke_color,
+            focusStrokeColor
+        )
         focusStrokeWidth = typedArray.getDimensionPixelOffset(
             R.styleable.DslButton_button_focus_stroke_width,
             focusStrokeWidth
@@ -461,9 +455,13 @@ open class DslButton : AppCompatTextView {
         endIndex: Int,
         defaultValue: IntArray?
     ): IntArray? {
-        return if (typedArray.hasValue(attrIndex)) {
-            val normalColors = typedArray.getString(attrIndex)
-            _fillColor(normalColors)
+        val colors = typedArray.getString(attrIndex)
+        if (typedArray.hasValue(attrIndex) && colors.isNullOrEmpty()) {
+            //如果有属性, 但是属性值为空, 则表示清空属性
+            return null
+        }
+        return if (!colors.isNullOrEmpty()) {
+            _fillColor(colors)
         } else if (typedArray.hasValue(startIndex) || typedArray.hasValue(endIndex)) {
             val startColor = typedArray.getColor(startIndex, Color.TRANSPARENT)
             val endColor = typedArray.getColor(endIndex, Color.TRANSPARENT)
@@ -562,27 +560,13 @@ open class DslButton : AppCompatTextView {
             }
         }
 
-        val bGradientColors =
-            if (typedArray.hasValue(R.styleable.DslButton_button_gradient_colors)) {
-                val normalColors =
-                    typedArray.getString(R.styleable.DslButton_button_gradient_colors)
-                _fillColor(normalColors)
-            } else if (typedArray.hasValue(R.styleable.DslButton_button_gradient_start_color) || typedArray.hasValue(
-                    R.styleable.DslButton_button_gradient_end_color
-                )
-            ) {
-                buttonGradientStartColor = typedArray.getColor(
-                    R.styleable.DslButton_button_gradient_start_color,
-                    buttonGradientStartColor
-                )
-                buttonGradientEndColor = typedArray.getColor(
-                    R.styleable.DslButton_button_gradient_end_color,
-                    buttonGradientEndColor
-                )
-                intArrayOf(buttonGradientStartColor, buttonGradientEndColor)
-            } else {
-                normalGradientColors
-            }
+        val bGradientColors = _initGradientColors(
+            typedArray,
+            R.styleable.DslButton_button_gradient_colors,
+            R.styleable.DslButton_button_gradient_start_color,
+            R.styleable.DslButton_button_gradient_end_color,
+            normalGradientColors
+        )
 
         setButtonGradientColors(bGradientColors)
     }
@@ -694,8 +678,11 @@ open class DslButton : AppCompatTextView {
             return null
         }
         val split = colors.split(",")
-
-        return IntArray(split.size) { split[it].toColorInt() }
+        return if (split.size > 1) {
+            IntArray(split.size) { split[it].toColorInt() }
+        } else {
+            IntArray(2) { split[0].toColorInt() }
+        }
     }
 
     fun Int.color(df: Int = Color.TRANSPARENT): Int = if (this == NO_COLOR) df else this
@@ -824,6 +811,7 @@ open class DslButton : AppCompatTextView {
         //nothing
     }
 
+    /**更新配置的后的[Drawable]并更新给[DslButton]*/
     open fun updateDrawable() {
         updateNormalDrawable()
         updateDisableDrawable()
@@ -834,6 +822,7 @@ open class DslButton : AppCompatTextView {
         updateButton()
     }
 
+    /**仅更新按钮的[backgroundDrawable], 和文本的[color]*/
     open fun updateButton() {
         if (enableTextStyle) {
             //文本状态颜色
@@ -888,6 +877,14 @@ open class DslButton : AppCompatTextView {
             ViewCompat.setBackground(this, backgroundDrawable)
         }
     }
+
+    override fun verifyDrawable(who: Drawable): Boolean {
+        return super.verifyDrawable(who)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+    }
 }
 
 /**颜色State, 请注意状态的顺序. 容易的状态, 放在最后*/
@@ -902,3 +899,94 @@ fun colorState(vararg pair: Pair<IntArray, Int>): ColorStateList {
 
     return ColorStateList(statesList.toTypedArray(), colorsList.toIntArray())
 }
+
+/**更新按钮填充颜色, 会去除渐变颜色效果*/
+fun DslButton.updateSolidColor(solidColor: Int, update: Boolean = true) {
+    enableBackgroundStyle = true
+    setButtonSolidColor(solidColor)
+    setButtonGradientColors(null)
+    if (update) {
+        updateDrawable()
+    }
+}
+
+/**更新按钮渐变颜色, 去除填充颜色*/
+fun DslButton.updateGradientColors(gradientColors: IntArray?, update: Boolean = true) {
+    enableBackgroundStyle = true
+    setButtonSolidColor(Color.TRANSPARENT)
+    setButtonGradientColors(gradientColors)
+    if (update) {
+        updateDrawable()
+    }
+}
+
+/**更新按钮边框样式, */
+fun DslButton.updateStrokeColor(
+    strokeColor: Int,
+    strokeWidth: Int = -1,
+    solidColor: Int = NO_COLOR,
+    gradientColors: IntArray? = null,
+    update: Boolean = true
+) {
+    enableBackgroundStyle = true
+    setButtonStrokeColor(strokeColor)
+    if (strokeWidth >= 0) {
+        setButtonStrokeWidth(strokeWidth)
+    }
+    if (solidColor != NO_COLOR) {
+        setButtonSolidColor(solidColor)
+    }
+    if (gradientColors != null) {
+        setButtonGradientColors(gradientColors)
+    }
+    if (update) {
+        updateDrawable()
+    }
+}
+
+/**更新按钮圆角大小*/
+fun DslButton.updateRadius(radius: Float, update: Boolean = true) {
+    enableBackgroundStyle = true
+    setButtonRadius(radius)
+    if (update) {
+        updateDrawable()
+    }
+}
+
+//<editor-fold desc="样式快速设置">
+
+/**填充样式*/
+fun DslButton.solidStyle(solidColor: Int, textColor: Int = NO_COLOR, radius: Float = 0f) {
+    setButtonGradientColors(null)
+    setButtonStrokeColor(NO_COLOR)
+    setButtonSolidColor(solidColor)
+    setButtonRadius(radius)
+    if (textColor != NO_COLOR) {
+        enableTextStyle = true
+        setButtonTextColor(textColor)
+    }
+    updateDrawable()
+}
+
+/**边框样式*/
+fun DslButton.borderStyle(
+    borderColor: Int,
+    strokeWidth: Int = 1 * dpi,
+    textColor: Int = NO_COLOR,
+    radius: Float = 0f
+) {
+    setButtonGradientColors(null)
+    setButtonSolidColor(NO_COLOR)
+    if (textColor != NO_COLOR) {
+        enableTextStyle = true
+        setButtonTextColor(textColor)
+    }
+    setButtonStrokeColor(borderColor)
+    setButtonRadius(radius)
+    if (strokeWidth >= 0) {
+        setButtonStrokeWidth(strokeWidth)
+    }
+    updateDrawable()
+}
+
+//</editor-fold desc="样式快速设置">
