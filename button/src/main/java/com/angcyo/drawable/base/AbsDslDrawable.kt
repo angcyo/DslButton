@@ -2,7 +2,15 @@ package com.angcyo.drawable.base
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.PorterDuff
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
@@ -176,7 +184,7 @@ abstract class AbsDslDrawable : Drawable() {
 
     var _lastBounds: Rect? = null
 
-    override fun onBoundsChange(bounds: Rect?) {
+    override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
         if (attachView?.isInEditMode != true && _lastBounds != bounds) {
             _lastBounds = bounds
@@ -188,7 +196,7 @@ abstract class AbsDslDrawable : Drawable() {
         return super.onLevelChange(level)
     }
 
-    override fun onStateChange(state: IntArray?): Boolean {
+    override fun onStateChange(state: IntArray): Boolean {
         return super.onStateChange(state)
     }
 
